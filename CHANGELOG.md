@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.2.0...v1.3.0) (2026-09-02)
+
+### ✨ New Features
+
+* add automatic Finch signature extractor tool ([79b4a34](https://github.com/g0lxs/hoomans-morphe-patches/commit/79b4a348e48abc5fb4984cdc569593ee8da5e96a))
+
 ## [1.2.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.1.0...v1.2.0) (2026-09-02)
 
 ### ✨ New Features
