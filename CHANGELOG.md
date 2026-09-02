@@ -1,3 +1,9 @@
+## [1.5.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.4.0...v1.5.0) (2026-09-02)
+
+### ✨ New Features
+
+* rename repository to g0lxs's Morphe Patches and clean README ([2774467](https://github.com/g0lxs/hoomans-morphe-patches/commit/2774467991bc74d12f2a772c94326f16c879f67f))
+
 ## [1.4.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.3.0...v1.4.0) (2026-09-02)
 
 ### ✨ New Features
