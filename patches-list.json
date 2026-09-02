@@ -1,7 +1,32 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "patches": [
+    {
+      "name": "Enable Pro",
+      "description": "Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.accordion.analogcam",
+          "name": "OldRoll",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#FF6B35",
+          "signatures": null,
+          "targets": [
+            {
+              "version": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
     {
       "name": "Unlock Plus",
       "description": "Unlocks Finch Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Finch's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead.",
@@ -23,24 +48,6 @@
               "description": null
             }
           ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "name": "Enable Pro",
-      "description": "Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks.",
-      "default": true,
-      "dependencies": [],
-      "compatiblePackages": [
-        {
-          "packageName": "com.accordion.analogcam",
-          "name": "OldRoll",
-          "description": null,
-          "apkFileType": "APK",
-          "appIconColor": "#FF6B35",
-          "signatures": null,
-          "targets": []
         }
       ],
       "options": []
