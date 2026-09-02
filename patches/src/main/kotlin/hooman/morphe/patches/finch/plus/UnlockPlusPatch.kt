@@ -54,7 +54,6 @@ val unlockPlusPatch = rawResourcePatch(
             name = "Finch",
             packageName = "com.finch.finch",
             appIconColor = 0xBFC2D0,
-            targets = listOf(), // no version pin — applies to any build
         ),
     )
 
