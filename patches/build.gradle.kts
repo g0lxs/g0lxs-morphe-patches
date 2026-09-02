@@ -4,10 +4,10 @@ patches {
     about {
         name = "g0lxs's Morphe Patches"
         description = "Personal Morphe patches by g0lxs."
-        source = "git@github.com:g0lxs/hoomans-morphe-patches.git"
+        source = "git@github.com:g0lxs/g0lxs-morphe-patches.git"
         author = "g0lxs"
         contact = "na"
-        website = "https://github.com/g0lxs/hoomans-morphe-patches"
+        website = "https://github.com/g0lxs/g0lxs-morphe-patches"
         license = "GPLv3"
     }
 }
