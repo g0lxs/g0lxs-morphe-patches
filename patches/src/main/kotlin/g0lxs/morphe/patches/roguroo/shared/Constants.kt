@@ -1,4 +1,4 @@
-package g0lxs.morphe.patches.oldroll.shared
+package g0lxs.morphe.patches.roguroo.shared
 
 import app.morphe.patcher.patch.ApkFileType
 import app.morphe.patcher.patch.AppTarget

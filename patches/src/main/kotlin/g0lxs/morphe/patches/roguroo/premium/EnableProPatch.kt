@@ -1,9 +1,9 @@
-package g0lxs.morphe.patches.oldroll.premium
+package g0lxs.morphe.patches.roguroo.premium
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
-import g0lxs.morphe.patches.oldroll.integrity.patchNativeTamperCheckPatch
-import g0lxs.morphe.patches.oldroll.shared.Constants.COMPATIBILITY_ROGUROO
+import g0lxs.morphe.patches.roguroo.integrity.patchNativeTamperCheckPatch
+import g0lxs.morphe.patches.roguroo.shared.Constants.COMPATIBILITY_ROGUROO
 
 private const val TRUE_RETURN = """
     const/4 v0, 0x1
