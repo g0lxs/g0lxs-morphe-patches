@@ -1,3 +1,9 @@
+## [1.6.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.5.0...v1.6.0) (2026-09-02)
+
+### ✨ New Features
+
+* add OldRoll Enable Pro patch ([31bbbea](https://github.com/g0lxs/g0lxs-morphe-patches/commit/31bbbea647687eac709e3a7c4e08e733accc1967))
+
 ## [1.5.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.4.0...v1.5.0) (2026-09-02)
 
 ### ✨ New Features
