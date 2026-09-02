@@ -11,8 +11,8 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 > **🔐 App Names Cipher:**
 > App names in this repository are obfuscated using a **Caesar cipher shifted 3 places to the right (ROT+3)** for privacy.
 > To find the real app name, shift each letter **3 positions to the left (ROT-3)**:
-> - `Ilqfk` → **Finch** (`I`→`F`, `l`→`i`, `q`→`n`, `f`→`c`, `k`→`h`)
-> - `RogUroo` → **OldRoll** (`R`→`O`, `o`→`l`, `g`→`d`, `U`→`R`, `r`→`o`, `o`→`l`, `o`→`l`)
+> - Rule: `D`→`A`, `E`→`B`, `F`→`C`, ..., `Z`→`W`
+> - Example: `Khoor` → `Hello` (`K`→`H`, `h`→`e`, `o`→`l`, `o`→`l`, `r`→`o`)
 
 ## 🩹 Patches
 
