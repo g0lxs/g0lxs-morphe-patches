@@ -5,7 +5,7 @@ import app.morphe.patcher.patch.Compatibility
 import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.rawResourcePatch
 
-private val FINCH_VERSIONS = listOf("3.73.179", "3.73.201", "3.73.202")
+private val FINCH_VERSIONS = listOf("3.73.202")
 
 private class VersionSignatures(
     val version: String,
