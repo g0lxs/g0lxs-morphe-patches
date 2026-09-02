@@ -6,7 +6,9 @@
       "name": "Enable Pro",
       "description": "Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks.",
       "default": true,
-      "dependencies": [],
+      "dependencies": [
+        "PatchNativeTamperCheckPatch"
+      ],
       "compatiblePackages": [
         {
           "packageName": "com.accordion.analogcam",
@@ -17,7 +19,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": null,
+              "version": "6.6.2",
               "isExperimental": false,
               "minSdk": null,
               "description": null

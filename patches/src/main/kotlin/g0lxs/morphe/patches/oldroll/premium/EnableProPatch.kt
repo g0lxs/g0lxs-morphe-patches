@@ -2,6 +2,7 @@ package g0lxs.morphe.patches.oldroll.premium
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
+import g0lxs.morphe.patches.oldroll.integrity.patchNativeTamperCheckPatch
 import g0lxs.morphe.patches.oldroll.shared.Constants.COMPATIBILITY_ROGUROO
 
 private const val TRUE_RETURN = """
@@ -21,6 +22,7 @@ val enableRogUrooProPatch = bytecodePatch(
     description = "Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks.",
     default = true,
 ) {
+    dependsOn(patchNativeTamperCheckPatch)
     compatibleWith(COMPATIBILITY_ROGUROO)
 
     execute {

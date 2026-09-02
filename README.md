@@ -22,6 +22,11 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 <summary>📦 RogUroo&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
+**🎯 Supported versions:**
+
+| 6.6.2 |
+| :---: |
+
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Enable Pro](#enable-pro) | Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks. |  |
