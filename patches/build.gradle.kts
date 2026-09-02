@@ -2,12 +2,12 @@ group = "io.github.arandomhooman"
 
 patches {
     about {
-        name = "Hooman's Morphe Patches"
-        description = "Personal Morphe patches for paid Android apps."
-        source = "git@github.com:arandomhooman/hoomans-morphe-patches.git"
-        author = "arandomhooman"
+        name = "Hooman's Morphe Patches GFork"
+        description = "Personal Morphe patches for paid Android apps. GFork"
+        source = "git@github.com:g0lxs/hoomans-morphe-patches.git"
+        author = "g0lxs"
         contact = "na"
-        website = "https://github.com/arandomhooman/hoomans-morphe-patches"
+        website = "https://github.com/g0lxs/hoomans-morphe-patches"
         license = "GPLv3"
     }
 }
