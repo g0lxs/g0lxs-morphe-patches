@@ -26,6 +26,24 @@
         }
       ],
       "options": []
+    },
+    {
+      "name": "Enable Pro",
+      "description": "Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.accordion.analogcam",
+          "name": "OldRoll",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#FF6B35",
+          "signatures": null,
+          "targets": []
+        }
+      ],
+      "options": []
     }
   ]
 }
