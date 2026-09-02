@@ -10,8 +10,8 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 ## 🩹 Patches
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.5.0](https://github.com/g0lxs/g0lxs-morphe-patches/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
-<details open>
+> **[v1.5.0](https://github.com/g0lxs/g0lxs-morphe-patches/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;2 patches total
+<details>
 <summary>📦 Finch&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
@@ -23,6 +23,16 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Unlock Plus](#unlock-plus) | Unlocks Finch Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Finch's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead. |  |
+
+</details>
+
+<details>
+<summary>📦 OldRoll&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Enable Pro](#enable-pro) | Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks. |  |
 
 </details>
 
