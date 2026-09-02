@@ -4,6 +4,9 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 
 > Forked from [Hooman's Morphe Patches](https://github.com/arandomhooman/hoomans-morphe-patches).
 
+> [!WARNING]
+> **Disclaimer:** This project was written with the assistance of AI. Use at your own risk.
+
 ## 🩹 Patches
 
 <!-- PATCHES_START EXPANDED -->
