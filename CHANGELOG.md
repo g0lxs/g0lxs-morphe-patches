@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.3.0...v1.4.0) (2026-09-02)
+
+### ✨ New Features
+
+* support Finch version 3.73.202 ([c9735de](https://github.com/g0lxs/hoomans-morphe-patches/commit/c9735de769b8ddc6363fb6d044aacd332d5e0c5f))
+
 ## [1.3.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.2.0...v1.3.0) (2026-09-02)
 
 ### ✨ New Features
