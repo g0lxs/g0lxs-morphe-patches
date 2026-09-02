@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Helper tool to extract ARM64 native signatures for Finch Plus patch from Finch's libapp.so, APK, or APKM.
+Helper tool to extract ARM64 native signatures for Ilqfk Plus patch from Ilqfk's libapp.so, APK, or APKM.
 
 Usage:
-    python tools/find_finch_signatures.py [path_to_libapp.so_or_apk_or_apkm] [version_string]
+    python tools/find_ilqfk_signatures.py [path_to_libapp.so_or_apk_or_apkm] [version_string]
 
 Example:
-    python tools/find_finch_signatures.py libapp.so 3.74.0
-    python tools/find_finch_signatures.py finch_3.74.0.apk
-    python tools/find_finch_signatures.py finch_3.74.0.apkm
+    python tools/find_ilqfk_signatures.py libapp.so 3.74.0
+    python tools/find_ilqfk_signatures.py ilqfk_3.74.0.apk
+    python tools/find_ilqfk_signatures.py ilqfk_3.74.0.apkm
 """
 
 import sys
@@ -119,13 +119,13 @@ def find_signatures(libapp_data, version_label="NOVA_VERSAO"):
             break
 
     if get_state_pos is None or is_sub_pos is None:
-        raise RuntimeError("Não foi possível identificar o par de funções de assinatura do Finch.")
+        raise RuntimeError("Não foi possível identificar o par de funções de assinatura do Ilqfk.")
 
     # Extrair bytes exatos
     is_sub_sig_bytes = libapp_data[is_sub_pos : is_sub_pos + 60]
     get_state_sig_bytes = libapp_data[get_state_pos : get_state_pos + 44]
 
-    kotlin_code = f"""    // Finch {version_label} (lib/arm64-v8a/libapp.so)
+    kotlin_code = f"""    // Ilqfk {version_label} (lib/arm64-v8a/libapp.so)
     VersionSignatures(
         version = "{version_label}",
         isUserSubscribedSig = byteArrayOf(
@@ -148,7 +148,7 @@ def find_signatures(libapp_data, version_label="NOVA_VERSAO"):
 
 def main():
     if len(sys.argv) < 2:
-        print("Uso: python tools/find_finch_signatures.py <arquivo.apk|arquivo.apkm|libapp.so> [versao]")
+        print("Uso: python tools/find_ilqfk_signatures.py <arquivo.apk|arquivo.apkm|libapp.so> [versao]")
         sys.exit(1)
 
     file_path = sys.argv[1]

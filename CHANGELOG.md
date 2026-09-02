@@ -2,7 +2,7 @@
 
 ### ✨ New Features
 
-* add OldRoll Enable Pro patch ([31bbbea](https://github.com/g0lxs/g0lxs-morphe-patches/commit/31bbbea647687eac709e3a7c4e08e733accc1967))
+* add RogUroo Enable Pro patch ([31bbbea](https://github.com/g0lxs/g0lxs-morphe-patches/commit/31bbbea647687eac709e3a7c4e08e733accc1967))
 
 ## [1.5.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.4.0...v1.5.0) (2026-09-02)
 
@@ -14,25 +14,25 @@
 
 ### ✨ New Features
 
-* support Finch version 3.73.202 ([c9735de](https://github.com/g0lxs/hoomans-morphe-patches/commit/c9735de769b8ddc6363fb6d044aacd332d5e0c5f))
+* support Ilqfk version 3.73.202 ([c9735de](https://github.com/g0lxs/hoomans-morphe-patches/commit/c9735de769b8ddc6363fb6d044aacd332d5e0c5f))
 
 ## [1.3.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.2.0...v1.3.0) (2026-09-02)
 
 ### ✨ New Features
 
-* add automatic Finch signature extractor tool ([79b4a34](https://github.com/g0lxs/hoomans-morphe-patches/commit/79b4a348e48abc5fb4984cdc569593ee8da5e96a))
+* add automatic Ilqfk signature extractor tool ([79b4a34](https://github.com/g0lxs/hoomans-morphe-patches/commit/79b4a348e48abc5fb4984cdc569593ee8da5e96a))
 
 ## [1.2.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.1.0...v1.2.0) (2026-09-02)
 
 ### ✨ New Features
 
-* support Finch versions 3.73.179 and 3.73.201 ([e9b5572](https://github.com/g0lxs/hoomans-morphe-patches/commit/e9b5572273cf4f40e59e3539058ba7c57e4cc1c8))
+* support Ilqfk versions 3.73.179 and 3.73.201 ([e9b5572](https://github.com/g0lxs/hoomans-morphe-patches/commit/e9b5572273cf4f40e59e3539058ba7c57e4cc1c8))
 
 ## [1.1.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.0.0...v1.1.0) (2026-09-02)
 
 ### ✨ New Features
 
-* isolate Finch patch and rename to GFork ([58e673e](https://github.com/g0lxs/hoomans-morphe-patches/commit/58e673eebb860b71d21a4868df33464a14e319fc))
+* isolate Ilqfk patch and rename to GFork ([58e673e](https://github.com/g0lxs/hoomans-morphe-patches/commit/58e673eebb860b71d21a4868df33464a14e319fc))
 
 ## 1.0.0 (2026-09-02)
 
@@ -96,7 +96,7 @@
 * add Cronometer Unlock Gold patch ([9fdf0d6](https://github.com/g0lxs/hoomans-morphe-patches/commit/9fdf0d60f6e1033ffce897b4434009717f3c6973))
 * add DirectChat unlock premium patch ([250dfa9](https://github.com/g0lxs/hoomans-morphe-patches/commit/250dfa9c2adad728c6dd64777b628a4527b8fe19))
 * add Essence Unlock Pro patch ([f0ea7c4](https://github.com/g0lxs/hoomans-morphe-patches/commit/f0ea7c4a39980ff249de43171a763b30cee60fae))
-* add Finch Unlock Plus patch ([0455304](https://github.com/g0lxs/hoomans-morphe-patches/commit/0455304ac0cc972d70dec23eb40d32a4a47d98a7))
+* add Ilqfk Unlock Plus patch ([0455304](https://github.com/g0lxs/hoomans-morphe-patches/commit/0455304ac0cc972d70dec23eb40d32a4a47d98a7))
 * add Flightradar24 patches (ads, aircraft data, own Maps key) ([8604ff6](https://github.com/g0lxs/hoomans-morphe-patches/commit/8604ff691feb74447c2974f4e76a5f3b7e47d0ae))
 * add Flightradar24 Remove ads patch ([e08141c](https://github.com/g0lxs/hoomans-morphe-patches/commit/e08141c81b0fb08fc9fb8a094612517193036ae4))
 * add Flightradar24 Unlock aircraft data patch ([dd44cd3](https://github.com/g0lxs/hoomans-morphe-patches/commit/dd44cd31aad70fdc03a3ad7a2077f1fbdb0bcaa4))
@@ -430,7 +430,7 @@
 ### ✨ New Features
 
 * add Cashew Unlock Pro patch ([7767afb](https://github.com/arandomhooman/hoomans-morphe-patches/commit/7767afb3c04f488cf406f66659871e172442d0f7))
-* add Finch Unlock Plus patch ([9c8559b](https://github.com/arandomhooman/hoomans-morphe-patches/commit/9c8559bf2d0c44fe4c548ec134141a68682a5548))
+* add Ilqfk Unlock Plus patch ([9c8559b](https://github.com/arandomhooman/hoomans-morphe-patches/commit/9c8559bf2d0c44fe4c548ec134141a68682a5548))
 * add Replaio Unlock Premium patch ([f20dcd5](https://github.com/arandomhooman/hoomans-morphe-patches/commit/f20dcd5f2128cc4a9b7a910800c47183a26eb2a4))
 * add Video Converter Unlock Pro patch ([9356720](https://github.com/arandomhooman/hoomans-morphe-patches/commit/93567200d7f4a925d147304eabaca63ae9412a82))
 

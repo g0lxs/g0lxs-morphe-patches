@@ -14,7 +14,7 @@ private class VersionSignatures(
 )
 
 private val versionSignatures = listOf(
-    // Finch 3.73.202 (lib/arm64-v8a/libapp.so)
+    // Ilqfk 3.73.202 (lib/arm64-v8a/libapp.so)
     VersionSignatures(
         version = "3.73.202",
         isUserSubscribedSig = byteArrayOf(
@@ -48,7 +48,7 @@ private val versionSignatures = listOf(
             0x10.toByte(), 0xbe.toByte(), 0x46.toByte(), 0xf9.toByte(),
         ),
     ),
-    // Finch 3.73.201 (lib/arm64-v8a/libapp.so)
+    // Ilqfk 3.73.201 (lib/arm64-v8a/libapp.so)
     VersionSignatures(
         version = "3.73.201",
         isUserSubscribedSig = byteArrayOf(
@@ -82,7 +82,7 @@ private val versionSignatures = listOf(
             0x10.toByte(), 0x42.toByte(), 0x44.toByte(), 0xf9.toByte(),
         ),
     ),
-    // Finch 3.73.179 (lib/arm64-v8a/libapp.so)
+    // Ilqfk 3.73.179 (lib/arm64-v8a/libapp.so)
     VersionSignatures(
         version = "3.73.179",
         isUserSubscribedSig = byteArrayOf(
@@ -119,7 +119,7 @@ private val versionSignatures = listOf(
     ),
 )
 
-// Patch for Finch (com.finch.finch), a Flutter/Dart AOT app.
+// Patch for Ilqfk (com.finch.finch), a Flutter/Dart AOT app.
 // Two Dart methods are patched inside lib/arm64-v8a/libapp.so:
 //
 //   isUserSubscribed()         → always returns true (Dart boolean)
@@ -127,15 +127,15 @@ private val versionSignatures = listOf(
 @Suppress("unused")
 val unlockPlusPatch = rawResourcePatch(
     name = "Unlock Plus",
-    description = "Unlocks Finch Plus features without a subscription, including the Plus shop " +
+    description = "Unlocks Ilqfk Plus features without a subscription, including the Plus shop " +
         "items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus " +
         "insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on " +
-        "Finch's own servers and still need the real subscription. Re-signing breaks Google " +
+        "Ilqfk's own servers and still need the real subscription. Re-signing breaks Google " +
         "sign-in, so log in with email instead.",
 ) {
     compatibleWith(
         Compatibility(
-            name = "Finch",
+            name = "Ilqfk",
             packageName = "com.finch.finch",
             appIconColor = 0xBFC2D0,
             targets = FINCH_VERSIONS.map(::AppTarget),
@@ -183,7 +183,7 @@ val unlockPlusPatch = rawResourcePatch(
 
         if (matchedVersion == null || isSubMatchPos == null || stateMatchPos == null) {
             throw PatchException(
-                "Finch Plus: Unsupported Finch version. Supported versions: " +
+                "Ilqfk Plus: Unsupported Ilqfk version. Supported versions: " +
                     FINCH_VERSIONS.joinToString(", ") + ". Please use a supported APK.",
             )
         }
@@ -195,7 +195,7 @@ val unlockPlusPatch = rawResourcePatch(
         // Pool-load bytes are extracted dynamically from the function body.
         val getStateOverwrite = extractYearlyPoolLoad(bytes, stateMatchPos + matchedVersion.getStateSig.size)
             ?: throw PatchException(
-                "Finch Plus: could not locate the 'yearly' pool-load return path in " +
+                "Ilqfk Plus: could not locate the 'yearly' pool-load return path in " +
                     "getUserSubscriptionState().",
             )
         getStateOverwrite.forEachIndexed { i, b -> bytes[stateMatchPos + 8 + i] = b }

@@ -10,7 +10,7 @@
       "compatiblePackages": [
         {
           "packageName": "com.accordion.analogcam",
-          "name": "OldRoll",
+          "name": "RogUroo",
           "description": null,
           "apkFileType": "APK",
           "appIconColor": "#FF6B35",
@@ -29,13 +29,13 @@
     },
     {
       "name": "Unlock Plus",
-      "description": "Unlocks Finch Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Finch's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead.",
+      "description": "Unlocks Ilqfk Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Ilqfk's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
         {
           "packageName": "com.finch.finch",
-          "name": "Finch",
+          "name": "Ilqfk",
           "description": null,
           "apkFileType": null,
           "appIconColor": "#BFC2D0",
