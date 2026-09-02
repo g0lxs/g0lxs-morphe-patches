@@ -10,7 +10,7 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 ## 🩹 Patches
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.5.0](https://github.com/g0lxs/hoomans-morphe-patches/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
+> **[v1.5.0](https://github.com/g0lxs/g0lxs-morphe-patches/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
 <details open>
 <summary>📦 Finch&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
@@ -31,8 +31,8 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 ## 📥 How to install
 
 1. **Add the patch source** to Morphe Manager:
-   - Source URL: `https://github.com/g0lxs/hoomans-morphe-patches`
-   - Or use the direct [deeplink](https://morphe.software/add-source?github=g0lxs/hoomans-morphe-patches).
+   - Source URL: `https://github.com/g0lxs/g0lxs-morphe-patches`
+   - Or use the direct [deeplink](https://morphe.software/add-source?github=g0lxs/g0lxs-morphe-patches).
 2. **Get Finch's APK**:
    - Make sure to use the supported version listed in the table above.
    - Download the ARM64 universal APK or split bundle (`.apkm` / `.xapk` / `.apks`) from APKMirror or export it from the Play Store.
