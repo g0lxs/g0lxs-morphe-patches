@@ -15,6 +15,11 @@ Personal [Morphe](https://morphe.software) patches for paid Android apps.
 <summary>📦 Finch&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
+**🎯 Supported versions:**
+
+| 3.73.179 | 3.73.201 |
+| :---: | :---: |
+
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Unlock Plus GFork](#unlock-plus-gfork) | Unlocks Finch Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Finch's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead. |  |
