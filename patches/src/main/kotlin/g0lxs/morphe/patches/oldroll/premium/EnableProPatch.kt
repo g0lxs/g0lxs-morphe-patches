@@ -2,7 +2,7 @@ package g0lxs.morphe.patches.oldroll.premium
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
-import g0lxs.morphe.patches.oldroll.shared.Constants.COMPATIBILITY_OLDROLL
+import g0lxs.morphe.patches.oldroll.shared.Constants.COMPATIBILITY_ROGUROO
 
 private const val TRUE_RETURN = """
     const/4 v0, 0x1
@@ -16,12 +16,12 @@ private const val RETURN_CURRENT_TIME = """
 """
 
 @Suppress("unused")
-val enableOldrollProPatch = bytecodePatch(
+val enableRogUrooProPatch = bytecodePatch(
     name = "Enable Pro",
     description = "Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks.",
     default = true,
 ) {
-    compatibleWith(COMPATIBILITY_OLDROLL)
+    compatibleWith(COMPATIBILITY_ROGUROO)
 
     execute {
         PurchaseSharedPrefManagerIsSkuPurchasedFingerprint.method.addInstructions(0, TRUE_RETURN)
