@@ -1,11 +1,8 @@
-# 🍃 Hooman's Morphe Patches GFork
+# 🍃 g0lxs's Morphe Patches
 
-Personal [Morphe](https://morphe.software) patches for paid Android apps.
+Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com/g0lxs).
 
-> Patches are based on the prior work of [ReVanced](https://github.com/ReVanced).
-## 🙏 Requesting Patches
-
-**All** requests for patches **must** go under Patch Requests in the **[Discussions Tab](https://github.com/arandomhooman/hoomans-morphe-patches/discussions/new?category=new-patches)**.
+> Forked from [Hooman's Morphe Patches](https://github.com/arandomhooman/hoomans-morphe-patches).
 
 ## 🩹 Patches
 
@@ -22,30 +19,35 @@ Personal [Morphe](https://morphe.software) patches for paid Android apps.
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Unlock Plus GFork](#unlock-plus-gfork) | Unlocks Finch Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Finch's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead. |  |
+| [Unlock Plus](#unlock-plus) | Unlocks Finch Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Finch's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead. |  |
 
 </details>
 
 <!-- PATCHES_END -->
 
-## 📥 How to install
+## 📥 Como instalar / How to install
 
-The patches apply to the official app, which you supply yourself; this repo doesn't host or redistribute any app. For Finch:
+1. **Adicione a fonte no Morphe Manager:**
+   - Adicione o repositório: `https://github.com/g0lxs/hoomans-morphe-patches`
+   - Ou utilize o [deeplink direto](https://morphe.software/add-source?github=g0lxs/hoomans-morphe-patches).
+2. **Obtenha o APK do Finch:**
+   - Utilize uma das versões suportadas listadas na tabela acima.
+   - Baixe a versão universal ARM64 ou o pacote split (`.apkm` / `.xapk` / `.apks`) pelo APKMirror ou exportando da Play Store.
+3. **Selecione e aplique o patch:**
+   - No Morphe Manager, selecione o app, marque o patch **Unlock Plus** e instale a versão modificada.
 
-1. **Add the patch source** to Morphe Manager once: `https://github.com/g0lxs/hoomans-morphe-patches`, or use the [deeplink](https://morphe.software/add-source?github=g0lxs/hoomans-morphe-patches).
-2. **Get Finch's APK**: export it from the Play Store, or download it from APKMirror / APKCombo. Make sure to use the arm64 universal or merge split bundles (`.apks` / `.xapk`).
-3. **Patch and install** in Morphe Manager with Unlock Plus GFork.
+> **Nota:** A modificação re-assina o APK com uma chave local, portanto o login padrão com conta Google para de funcionar; utilize login por e-mail diretamente no aplicativo. Backups e sincronização na nuvem dependem dos servidores do Finch e não são cobertos.
 
-> Patching re-signs the app, so Google sign-in stops working on patched builds; log in with email or username instead. Cloud backup and sync run on Finch's own servers and still need a real subscription.
+## 🛠️ Build
 
-## 🛠️ Building
+Para compilar o bundle de patches localmente:
 
 ```bash
 ./gradlew buildAndroid
 ```
 
-Produces a `.mpp` patch bundle under `patches/build/libs/`.
+O arquivo `.mpp` compilado será gerado em `patches/build/libs/`.
 
-## 📋 License
+## 📋 Licença
 
-[GPLv3](LICENSE).
+Distribuído sob a licença [GPLv3](LICENSE).

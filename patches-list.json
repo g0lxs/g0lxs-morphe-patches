@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "patches": [
     {
-      "name": "Unlock Plus GFork",
+      "name": "Unlock Plus",
       "description": "Unlocks Finch Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Finch's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead.",
       "default": true,
       "dependencies": [],

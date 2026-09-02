@@ -126,7 +126,7 @@ private val versionSignatures = listOf(
 //   getUserSubscriptionState() → always returns the "yearly" tier string
 @Suppress("unused")
 val unlockPlusPatch = rawResourcePatch(
-    name = "Unlock Plus GFork",
+    name = "Unlock Plus",
     description = "Unlocks Finch Plus features without a subscription, including the Plus shop " +
         "items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus " +
         "insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on " +
