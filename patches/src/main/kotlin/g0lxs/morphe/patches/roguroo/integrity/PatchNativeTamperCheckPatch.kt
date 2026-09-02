@@ -1,8 +1,8 @@
-package g0lxs.morphe.patches.oldroll.integrity
+package g0lxs.morphe.patches.roguroo.integrity
 
 import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.rawResourcePatch
-import g0lxs.morphe.patches.oldroll.shared.Constants.COMPATIBILITY_ROGUROO
+import g0lxs.morphe.patches.roguroo.shared.Constants.COMPATIBILITY_ROGUROO
 
 // Internal (no name): applied automatically as a dependency of Enable Pro.
 @Suppress("unused")
