@@ -27,6 +27,12 @@
               "isExperimental": false,
               "minSdk": null,
               "description": null
+            },
+            {
+              "version": "3.73.202",
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
             }
           ]
         }

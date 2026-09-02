@@ -17,8 +17,8 @@ Personal [Morphe](https://morphe.software) patches for paid Android apps.
 
 **🎯 Supported versions:**
 
-| 3.73.179 | 3.73.201 |
-| :---: | :---: |
+| 3.73.179 | 3.73.201 | 3.73.202 |
+| :---: | :---: | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
