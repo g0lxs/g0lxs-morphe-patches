@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.7.0...v1.7.1) (2026-09-02)
+
+### 🐛 Bug Fixes
+
+* patch all 3 native libs with sig checks and error on split APKs for RogUroo ([e7e3f8c](https://github.com/g0lxs/g0lxs-morphe-patches/commit/e7e3f8c1a8e5b795138c2215af3e738f38113042))
+
 ## [1.7.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.6.0...v1.7.0) (2026-09-02)
 
 ### ✨ New Features
