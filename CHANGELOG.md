@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/g0lxs/hoomans-morphe-patches/compare/v1.0.0...v1.1.0) (2026-09-02)
+
+### ✨ New Features
+
+* isolate Finch patch and rename to GFork ([58e673e](https://github.com/g0lxs/hoomans-morphe-patches/commit/58e673eebb860b71d21a4868df33464a14e319fc))
+
 ## 1.0.0 (2026-09-02)
 
 ### 🐛 Bug Fixes
