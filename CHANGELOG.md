@@ -1,3 +1,9 @@
+## [1.7.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.6.0...v1.7.0) (2026-09-02)
+
+### ✨ New Features
+
+* neutralize native anti-tamper signature check in RogUroo 6.6.2 ([710fb7d](https://github.com/g0lxs/g0lxs-morphe-patches/commit/710fb7d403aa58fd9a4582708581417fa963acf5))
+
 ## [1.6.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.5.0...v1.6.0) (2026-09-02)
 
 ### ✨ New Features
