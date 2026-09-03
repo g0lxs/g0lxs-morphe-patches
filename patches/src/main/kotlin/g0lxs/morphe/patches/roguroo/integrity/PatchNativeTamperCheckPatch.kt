@@ -7,150 +7,149 @@ import g0lxs.morphe.patches.roguroo.shared.Constants.COMPATIBILITY_ROGUROO
 // Internal (no name): applied automatically as a dependency of Enable Pro.
 @Suppress("unused")
 val patchNativeTamperCheckPatch = rawResourcePatch(
-    description = "Neutralizes native APK signature verification in libArmArchNewEncrypt.so " +
-        "so the re-signed (patched) build runs without crashing on startup. " +
-        "Requires a merged/universal APK — split bundles (.apkm/.xapk/.apks) must " +
-        "be merged first (e.g. with APKEditor or SAI).",
+    description = "Neutralizes native APK signature verification in three native libraries " +
+        "(libArmArchNewEncrypt.so, libdai.so, libVAVComposition.so) so the re-signed (patched) " +
+        "build runs without crashing on startup. Requires a merged/universal APK — split " +
+        "bundles (.apkm/.xapk/.apks) must be merged first (e.g. with APKEditor or AntiSplit-M).",
 ) {
     compatibleWith(COMPATIBILITY_ROGUROO)
 
     execute {
-        // --- 1. Patch libArmArchNewEncrypt.so ---
-        val encryptLibPath = "lib/arm64-v8a/libArmArchNewEncrypt.so"
-        val encryptLib = get(encryptLibPath)
-        if (!encryptLib.exists()) {
-            throw PatchException(
-                "$encryptLibPath not found in the APK. This patch requires a merged/universal " +
-                    "APK (not a split .apkm/.xapk). Merge the split APK with APKEditor Studio, " +
-                    "SAI, or AntiSplit before patching.",
-            )
-        }
+        // The app's native libraries verify the APK signing certificate via JNI:
+        //   ActivityThread.currentActivityThread().getApplication()
+        //     .getPackageManager().getPackageInfo(name, 64).signatures[0].hashCode()
+        // The computed hash is compared against a list of ~12 known-good hashes
+        // (one per signing key the developer has used). If none matches, the function
+        // returns 0 (failure). The callers treat w0==0 as "tampered" and skip critical
+        // functionality, causing the app to crash or freeze.
+        //
+        // Fix: overwrite the checkSig prologue with `mov w0, #1; ret` so it always
+        // returns non-zero (= "signature valid"). Returning 1 instead of 0 is critical:
+        // the caller uses `cbz w0, <skip>` so returning 0 would SKIP decryption.
 
-        val encryptBytes = encryptLib.readBytes()
-
-        // checkSig function entry point (offset 0xc60 in 6.6.2).
-        // Unique prologue: stp x29,x30,[sp,#-64]! ; stp x24,x23,[sp,#16] ;
-        //                  stp x22,x21,[sp,#32] ; stp x20,x19,[sp,#48] ;
-        //                  mov x29,sp ; adrp x8,... ; adrp x24,...
-        // Overwrite with: mov w0, #0 ; ret  (always return 0 = "signature OK" token path)
-        val checkSigPrologue = byteArrayOf(
-            0xfd.toByte(), 0x7b.toByte(), 0xbc.toByte(), 0xa9.toByte(),
-            0xf8.toByte(), 0x5f.toByte(), 0x01.toByte(), 0xa9.toByte(),
-            0xf6.toByte(), 0x57.toByte(), 0x02.toByte(), 0xa9.toByte(),
-            0xf4.toByte(), 0x4f.toByte(), 0x03.toByte(), 0xa9.toByte(),
-            0xfd.toByte(), 0x03.toByte(), 0x00.toByte(), 0x91.toByte(),
-            0x28.toByte(), 0x00.toByte(), 0x00.toByte(), 0xb0.toByte(),
-            0x38.toByte(), 0x00.toByte(), 0x00.toByte(), 0xb0.toByte(),
+        val libsToCheck = listOf(
+            "lib/arm64-v8a/libArmArchNewEncrypt.so",
+            "lib/arm64-v8a/libdai.so",
+            "lib/arm64-v8a/libVAVComposition.so",
         )
 
-        val match1 = encryptBytes.findUnique(checkSigPrologue, encryptLibPath)
-            ?: throw PatchException(
-                "checkSig prologue not found in $encryptLibPath — binary layout has changed.",
-            )
-
-        // Overwrite checkSig entry: mov w0, #0; ret
-        val movW0Zero = byteArrayOf(
-            0x00.toByte(), 0x00.toByte(), 0x80.toByte(), 0x52.toByte(), // mov w0, #0
+        // mov w0, #1; ret — always return "signature OK"
+        val bypassStub = byteArrayOf(
+            0x20.toByte(), 0x00.toByte(), 0x80.toByte(), 0x52.toByte(), // mov w0, #1
             0xc0.toByte(), 0x03.toByte(), 0x5f.toByte(), 0xd6.toByte(), // ret
         )
-        movW0Zero.forEachIndexed { i, b -> encryptBytes[match1 + i] = b }
 
-        encryptLib.writeBytes(encryptBytes)
+        // The signature-check function in every library compares the computed hashCode()
+        // against a chain of known hashes using: movz w9, #imm16; movk w9, #imm16, lsl#16;
+        // CMP w0, w9; B.EQ <accept>; ... repeated for each hash.
+        //
+        // The unique anchor: the app's signing cert hash 0x07a594f0 always appears as
+        //   movz w?, #0x94f0 (52 92 9e 09/08)  followed by  movk w?, #0x07a5, lsl #16
+        // This 8-byte sequence is unique in each library.
+        //
+        // Strategy: find this anchor, walk backwards to the function prologue
+        // (stp x29, x30, [sp, #-N]!), and overwrite it with the bypass stub.
 
-        // --- 2. Patch libdai.so (also contains signature hash constant 0x07a594f0) ---
-        val daiLibPath = "lib/arm64-v8a/libdai.so"
-        val daiLib = get(daiLibPath)
-        if (daiLib.exists()) {
-            val daiBytes = daiLib.readBytes()
+        var primaryLibFound = false
 
-            // The signature check function in libdai.so starts with the same prologue pattern
-            // followed by different adrp operands. Find the signature hash constant
-            // movz w9, 0x94f0 ; movk w9, 0x07a5, lsl #16
-            // bytes: 09 9e 92 52  a9 f4 a0 72
-            val sigHashConstant = byteArrayOf(
-                0x09.toByte(), 0x9e.toByte(), 0x92.toByte(), 0x52.toByte(),
-                0xa9.toByte(), 0xf4.toByte(), 0xa0.toByte(), 0x72.toByte(),
-            )
-
-            val hashMatch = daiBytes.findFirst(sigHashConstant)
-            if (hashMatch != null) {
-                // Walk backwards to find the function prologue (stp x29, x30, ...)
-                var funcStart = hashMatch
-                while (funcStart > hashMatch - 0x500 && funcStart >= 0) {
-                    if (daiBytes[funcStart] == 0xfd.toByte() &&
-                        daiBytes[funcStart + 1] == 0x7b.toByte() &&
-                        daiBytes[funcStart + 2] == 0xbc.toByte() &&
-                        daiBytes[funcStart + 3] == 0xa9.toByte()
-                    ) {
-                        // Found prologue — overwrite with mov w0, #0; ret
-                        movW0Zero.forEachIndexed { i, b -> daiBytes[funcStart + i] = b }
-                        break
-                    }
-                    funcStart -= 4
+        for (libPath in libsToCheck) {
+            val lib = get(libPath)
+            if (!lib.exists()) {
+                if (libPath.contains("ArmArchNewEncrypt")) {
+                    throw PatchException(
+                        "$libPath not found in the APK. This patch requires a merged/universal " +
+                            "APK (not a split .apkm/.xapk). Merge the split APK with APKEditor " +
+                            "Studio, SAI, or AntiSplit-M before patching.",
+                    )
                 }
-                daiLib.writeBytes(daiBytes)
+                continue
+            }
+
+            val bytes = lib.readBytes()
+
+            // Find movz w?, #0x94f0 (any destination register)
+            val hashAnchor = findHashConstant(bytes, 0x94f0, 0x07a5)
+            if (hashAnchor == null) {
+                // Not all libs may have the check in every version
+                continue
+            }
+
+            // Walk backwards to find the function prologue: stp x29, x30, [sp, #-N]!
+            // This is encoded as A9xx7BFD where bit 15 is set (pre-index writeback).
+            val funcStart = findPrologueBackwards(bytes, hashAnchor, maxDistance = 0x800)
+                ?: throw PatchException(
+                    "Could not find function prologue in $libPath before hash constant at " +
+                        "0x${hashAnchor.toString(16)}. Binary layout has changed.",
+                )
+
+            // Overwrite function entry with bypass stub
+            bypassStub.forEachIndexed { i, b -> bytes[funcStart + i] = b }
+            lib.writeBytes(bytes)
+
+            if (libPath.contains("ArmArchNewEncrypt")) {
+                primaryLibFound = true
             }
         }
 
-        // --- 3. Patch libVAVComposition.so (also contains signature verification) ---
-        val vavLibPath = "lib/arm64-v8a/libVAVComposition.so"
-        val vavLib = get(vavLibPath)
-        if (vavLib.exists()) {
-            val vavBytes = vavLib.readBytes()
-
-            // libVAVComposition.so contains a signature check that compares against multiple
-            // hash constants including 0x07a594f0 at:
-            //   movz w8, 0x94f0, lsl #0 -> 08 9e 92 52
-            //   movk w8, 0x07a5, lsl #16 -> a8 f4 a0 72
-            val vavSigHash = byteArrayOf(
-                0x08.toByte(), 0x9e.toByte(), 0x92.toByte(), 0x52.toByte(),
-                0xa8.toByte(), 0xf4.toByte(), 0xa0.toByte(), 0x72.toByte(),
+        if (!primaryLibFound) {
+            throw PatchException(
+                "libArmArchNewEncrypt.so signature check pattern not found — binary layout has changed.",
             )
-
-            val vavMatch = vavBytes.findFirst(vavSigHash)
-            if (vavMatch != null) {
-                // Walk backwards to find function prologue (stp x29, x30, [sp, #-16]!)
-                var funcStart = vavMatch
-                while (funcStart > vavMatch - 0x500 && funcStart >= 4) {
-                    if (vavBytes[funcStart] == 0xfd.toByte() &&
-                        vavBytes[funcStart + 1] == 0x7b.toByte() &&
-                        vavBytes[funcStart + 2] == 0xbf.toByte() &&
-                        vavBytes[funcStart + 3] == 0xa9.toByte()
-                    ) {
-                        // Found prologue — overwrite with mov w0, #0; ret
-                        movW0Zero.forEachIndexed { i, b -> vavBytes[funcStart + i] = b }
-                        break
-                    }
-                    funcStart -= 4
-                }
-                vavLib.writeBytes(vavBytes)
-            }
         }
     }
 }
 
-private fun ByteArray.findUnique(pattern: ByteArray, context: String): Int? {
-    var found: Int? = null
-    val last = size - pattern.size
-    outer@ for (i in 0..last) {
-        for (j in pattern.indices) {
-            if (this[i + j] != pattern[j]) continue@outer
-        }
-        if (found != null) {
-            throw PatchException("Pattern matched more than once in $context.")
-        }
-        found = i
-    }
-    return found
-}
+/**
+ * Finds `movz wR, #[low16]` immediately followed by `movk wR, #[high16], lsl #16`
+ * where R can be any register. Returns the byte offset of the movz instruction,
+ * or null if not found.
+ */
+private fun findHashConstant(bytes: ByteArray, low16: Int, high16: Int): Int? {
+    val last = bytes.size - 8
+    for (i in 0..last step 4) {
+        val w1 = bytes.readIntLE(i)
+        // MOVZ Wd, #imm16, lsl #0: 0101_0010_100x_xxxx_xxxx_xxxx_xxxR_RRRR
+        if (w1 and 0x7FE00000.toInt() != 0x52800000) continue
+        val imm1 = (w1 ushr 5) and 0xFFFF
+        if (imm1 != low16) continue
+        val rd1 = w1 and 0x1F
 
-private fun ByteArray.findFirst(pattern: ByteArray): Int? {
-    val last = size - pattern.size
-    outer@ for (i in 0..last) {
-        for (j in pattern.indices) {
-            if (this[i + j] != pattern[j]) continue@outer
-        }
+        val w2 = bytes.readIntLE(i + 4)
+        // MOVK Wd, #imm16, lsl #16: 0111_0010_101x_xxxx_xxxx_xxxx_xxxR_RRRR
+        if (w2 and 0x7FE00000.toInt() != 0x72A00000.toInt()) continue
+        val imm2 = (w2 ushr 5) and 0xFFFF
+        if (imm2 != high16) continue
+        val rd2 = w2 and 0x1F
+        if (rd1 != rd2) continue
+
         return i
     }
     return null
 }
+
+/**
+ * Walks backwards from [startOffset] looking for `stp x29, x30, [sp, #-N]!`
+ * (pre-indexed store pair with frame-pointer setup). Returns the byte offset
+ * of the prologue instruction, or null if not found within [maxDistance] bytes.
+ */
+private fun findPrologueBackwards(bytes: ByteArray, startOffset: Int, maxDistance: Int): Int? {
+    var off = startOffset
+    val minOff = maxOf(0, startOffset - maxDistance)
+    while (off >= minOff) {
+        val w = bytes.readIntLE(off)
+        // stp x29, x30, [sp, #imm7]! — pre-index writeback
+        // Encoding: 1x101001 1xxxxxxx 01111011 11111101
+        // Mask:     FF80 7FFF == A980 7BFD (x64-bit, pre-index, Rt2=x30, Rn=sp, Rt=x29)
+        if (w and 0xFF807FFF.toInt() == 0xA9807BFD.toInt()) {
+            return off
+        }
+        off -= 4
+    }
+    return null
+}
+
+private fun ByteArray.readIntLE(offset: Int): Int =
+    (this[offset].toInt() and 0xFF) or
+        ((this[offset + 1].toInt() and 0xFF) shl 8) or
+        ((this[offset + 2].toInt() and 0xFF) shl 16) or
+        ((this[offset + 3].toInt() and 0xFF) shl 24)
