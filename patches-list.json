@@ -3,33 +3,6 @@
   "version": "1.7.2",
   "patches": [
     {
-      "name": "Enable Pro",
-      "description": "Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks.",
-      "default": true,
-      "dependencies": [
-        "RawResourcePatch"
-      ],
-      "compatiblePackages": [
-        {
-          "packageName": "com.accordion.analogcam",
-          "name": "RogUroo",
-          "description": null,
-          "apkFileType": "APK",
-          "appIconColor": "#FF6B35",
-          "signatures": null,
-          "targets": [
-            {
-              "version": "6.6.2",
-              "isExperimental": false,
-              "minSdk": null,
-              "description": null
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
       "name": "Unlock Plus",
       "description": "Unlocks Ilqfk Plus features without a subscription, including the Plus shop items, extra themes and customization, seasonal event tiers, the monthly recap, and Plus insights. It also clears the upgrade prompts. Cloud backup and cross-device sync run on Ilqfk's own servers and still need the real subscription. Re-signing breaks Google sign-in, so log in with email instead.",
       "default": true,

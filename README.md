@@ -17,23 +17,8 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 ## 🩹 Patches
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.7.2](https://github.com/g0lxs/g0lxs-morphe-patches/releases/tag/v1.7.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;2 patches total
-<details>
-<summary>📦 RogUroo&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 6.6.2 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Enable Pro](#enable-pro) | Unlocks all pro/premium features by bypassing purchase validation and SharedPreferences checks. |  |
-
-</details>
-
-<details>
+> **[v1.7.2](https://github.com/g0lxs/g0lxs-morphe-patches/releases/tag/v1.7.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
+<details open>
 <summary>📦 Ilqfk&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
