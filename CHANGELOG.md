@@ -1,3 +1,9 @@
+## [1.7.2](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.7.1...v1.7.2) (2026-09-03)
+
+### 🐛 Bug Fixes
+
+* return non-zero from checkSig (returning 0 signals failure, causing crash) ([e46a863](https://github.com/g0lxs/g0lxs-morphe-patches/commit/e46a863da7e3b2a6134212798b78a63fc7387700)), closes [#0](https://github.com/g0lxs/g0lxs-morphe-patches/issues/0) [#1](https://github.com/g0lxs/g0lxs-morphe-patches/issues/1)
+
 ## [1.7.1](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.7.0...v1.7.1) (2026-09-02)
 
 ### 🐛 Bug Fixes

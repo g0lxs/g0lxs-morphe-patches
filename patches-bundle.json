@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-09-02T22:14:29",
-  "description": "## [1.7.1](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.7.0...v1.7.1) (2026-09-02)\n\n### 🐛 Bug Fixes\n\n* patch all 3 native libs with sig checks and error on split APKs for RogUroo ([e7e3f8c](https://github.com/g0lxs/g0lxs-morphe-patches/commit/e7e3f8c1a8e5b795138c2215af3e738f38113042))",
-  "download_url": "https://github.com/g0lxs/g0lxs-morphe-patches/releases/download/v1.7.1/patches-1.7.1.mpp",
+  "created_at": "2026-09-03T18:09:57",
+  "description": "## [1.7.2](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.7.1...v1.7.2) (2026-09-03)\n\n### 🐛 Bug Fixes\n\n* return non-zero from checkSig (returning 0 signals failure, causing crash) ([e46a863](https://github.com/g0lxs/g0lxs-morphe-patches/commit/e46a863da7e3b2a6134212798b78a63fc7387700)), closes [#0](https://github.com/g0lxs/g0lxs-morphe-patches/issues/0) [#1](https://github.com/g0lxs/g0lxs-morphe-patches/issues/1)",
+  "download_url": "https://github.com/g0lxs/g0lxs-morphe-patches/releases/download/v1.7.2/patches-1.7.2.mpp",
   "signature_download_url": "",
-  "version": "1.7.1"
+  "version": "1.7.2"
 }
