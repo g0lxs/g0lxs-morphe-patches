@@ -1,3 +1,9 @@
+## [1.8.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.7.2...v1.8.0) (2026-09-03)
+
+### ✨ New Features
+
+* remove RogUroo patches to keep only Ilqfk ([f98efd5](https://github.com/g0lxs/g0lxs-morphe-patches/commit/f98efd513b6bedb8e7444eaa74704a131b7ab827))
+
 ## [1.7.2](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.7.1...v1.7.2) (2026-09-03)
 
 ### 🐛 Bug Fixes
