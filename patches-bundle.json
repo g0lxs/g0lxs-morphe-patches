@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-09-03T18:33:02",
-  "description": "## [1.8.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.7.2...v1.8.0) (2026-09-03)\n\n### ✨ New Features\n\n* remove RogUroo patches to keep only Ilqfk ([f98efd5](https://github.com/g0lxs/g0lxs-morphe-patches/commit/f98efd513b6bedb8e7444eaa74704a131b7ab827))",
-  "download_url": "https://github.com/g0lxs/g0lxs-morphe-patches/releases/download/v1.8.0/patches-1.8.0.mpp",
+  "created_at": "2026-09-09T20:07:35",
+  "description": "## [1.9.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.8.0...v1.9.0) (2026-09-09)\n\n### ✨ New Features\n\n* support Ilqfk 3.73.204 ([d84b2d4](https://github.com/g0lxs/g0lxs-morphe-patches/commit/d84b2d47d85a28a20b74a75573816a9e08abbfaa))",
+  "download_url": "https://github.com/g0lxs/g0lxs-morphe-patches/releases/download/v1.9.0/patches-1.9.0.mpp",
   "signature_download_url": "",
-  "version": "1.8.0"
+  "version": "1.9.0"
 }
