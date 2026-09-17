@@ -5,7 +5,7 @@ import app.morphe.patcher.patch.Compatibility
 import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.rawResourcePatch
 
-private val ILQFK_VERSIONS = listOf("3.73.204", "3.73.202")
+private val ILQFK_VERSIONS = listOf("3.73.207")
 
 private class VersionSignatures(
     val version: String,
@@ -14,9 +14,9 @@ private class VersionSignatures(
 )
 
 private val versionSignatures = listOf(
-    // Ilqfk 3.73.204 (lib/arm64-v8a/libapp.so)
+    // Ilqfk 3.73.207 (lib/arm64-v8a/libapp.so)
     VersionSignatures(
-        version = "3.73.204",
+        version = "3.73.207",
         isUserSubscribedSig = byteArrayOf(
             0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
             0xfd.toByte(), 0x03.toByte(), 0x0f.toByte(), 0xaa.toByte(),
@@ -25,14 +25,14 @@ private val versionSignatures = listOf(
             0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
             0x29.toByte(), 0x0a.toByte(), 0x00.toByte(), 0x54.toByte(),
             0x40.toByte(), 0x3f.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0x00.toByte(), 0x9c.toByte(), 0x52.toByte(), 0xf9.toByte(),
-            0x70.toByte(), 0x23.toByte(), 0x40.toByte(), 0xf9.toByte(),
+            0x00.toByte(), 0x08.toByte(), 0x5a.toByte(), 0xf9.toByte(),
+            0x50.toByte(), 0x4b.toByte(), 0x40.toByte(), 0xf9.toByte(),
             0x1f.toByte(), 0x00.toByte(), 0x10.toByte(), 0x6b.toByte(),
             0x61.toByte(), 0x00.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x62.toByte(), 0x2b.toByte(), 0x7d.toByte(), 0xf9.toByte(),
-            0x13.toByte(), 0x13.toByte(), 0x59.toByte(), 0x94.toByte(),
+            0x62.toByte(), 0x9f.toByte(), 0x7f.toByte(), 0xf9.toByte(),
+            0x07.toByte(), 0xa0.toByte(), 0x59.toByte(), 0x94.toByte(),
             0x70.toByte(), 0x27.toByte(), 0x40.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0xea.toByte(), 0x41.toByte(), 0xf9.toByte(),
+            0x10.toByte(), 0x72.toByte(), 0x44.toByte(), 0xf9.toByte(),
         ),
         getStateSig = byteArrayOf(
             0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
@@ -41,114 +41,11 @@ private val versionSignatures = listOf(
             0x50.toByte(), 0x27.toByte(), 0x40.toByte(), 0xf9.toByte(),
             0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
             0x69.toByte(), 0x04.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x20.toByte(), 0x0c.toByte(), 0xfb.toByte(), 0x97.toByte(),
+            0x33.toByte(), 0xf7.toByte(), 0xfa.toByte(), 0x97.toByte(),
             0x01.toByte(), 0xf0.toByte(), 0x5f.toByte(), 0xf8.toByte(),
             0x21.toByte(), 0x7c.toByte(), 0x4c.toByte(), 0xd3.toByte(),
             0x70.toByte(), 0x9f.toByte(), 0x41.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0x26.toByte(), 0x45.toByte(), 0xf9.toByte(),
-        ),
-    ),
-    // Ilqfk 3.73.202 (lib/arm64-v8a/libapp.so)
-    VersionSignatures(
-        version = "3.73.202",
-        isUserSubscribedSig = byteArrayOf(
-            0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
-            0xfd.toByte(), 0x03.toByte(), 0x0f.toByte(), 0xaa.toByte(),
-            0xef.toByte(), 0x81.toByte(), 0x00.toByte(), 0xd1.toByte(),
-            0x50.toByte(), 0x27.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
-            0x29.toByte(), 0x0a.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x40.toByte(), 0x3f.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0x00.toByte(), 0x98.toByte(), 0x52.toByte(), 0xf9.toByte(),
-            0x70.toByte(), 0x23.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0x1f.toByte(), 0x00.toByte(), 0x10.toByte(), 0x6b.toByte(),
-            0x61.toByte(), 0x00.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x62.toByte(), 0x9b.toByte(), 0x7c.toByte(), 0xf9.toByte(),
-            0x8c.toByte(), 0x79.toByte(), 0x58.toByte(), 0x94.toByte(),
-            0x70.toByte(), 0x27.toByte(), 0x40.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0x4e.toByte(), 0x41.toByte(), 0xf9.toByte(),
-        ),
-        getStateSig = byteArrayOf(
-            0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
-            0xfd.toByte(), 0x03.toByte(), 0x0f.toByte(), 0xaa.toByte(),
-            0xef.toByte(), 0x61.toByte(), 0x00.toByte(), 0xd1.toByte(),
-            0x50.toByte(), 0x27.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
-            0x69.toByte(), 0x04.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0xc3.toByte(), 0xf7.toByte(), 0xfa.toByte(), 0x97.toByte(),
-            0x01.toByte(), 0xf0.toByte(), 0x5f.toByte(), 0xf8.toByte(),
-            0x21.toByte(), 0x7c.toByte(), 0x4c.toByte(), 0xd3.toByte(),
-            0x70.toByte(), 0xe7.toByte(), 0x40.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0xbe.toByte(), 0x46.toByte(), 0xf9.toByte(),
-        ),
-    ),
-    // Ilqfk 3.73.201 (lib/arm64-v8a/libapp.so)
-    VersionSignatures(
-        version = "3.73.201",
-        isUserSubscribedSig = byteArrayOf(
-            0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
-            0xfd.toByte(), 0x03.toByte(), 0x0f.toByte(), 0xaa.toByte(),
-            0xef.toByte(), 0x81.toByte(), 0x00.toByte(), 0xd1.toByte(),
-            0x50.toByte(), 0x27.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
-            0x29.toByte(), 0x0a.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x40.toByte(), 0x3f.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0x00.toByte(), 0x98.toByte(), 0x52.toByte(), 0xf9.toByte(),
-            0x70.toByte(), 0x23.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0x1f.toByte(), 0x00.toByte(), 0x10.toByte(), 0x6b.toByte(),
-            0x61.toByte(), 0x00.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x62.toByte(), 0x43.toByte(), 0x7c.toByte(), 0xf9.toByte(),
-            0x73.toByte(), 0x0d.toByte(), 0x59.toByte(), 0x94.toByte(),
-            0x70.toByte(), 0x27.toByte(), 0x40.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0xda.toByte(), 0x40.toByte(), 0xf9.toByte(),
-        ),
-        getStateSig = byteArrayOf(
-            0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
-            0xfd.toByte(), 0x03.toByte(), 0x0f.toByte(), 0xaa.toByte(),
-            0xef.toByte(), 0x61.toByte(), 0x00.toByte(), 0xd1.toByte(),
-            0x50.toByte(), 0x27.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
-            0x69.toByte(), 0x04.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0xdc.toByte(), 0xc5.toByte(), 0xfb.toByte(), 0x97.toByte(),
-            0x01.toByte(), 0xf0.toByte(), 0x5f.toByte(), 0xf8.toByte(),
-            0x21.toByte(), 0x7c.toByte(), 0x4c.toByte(), 0xd3.toByte(),
-            0x70.toByte(), 0xdb.toByte(), 0x40.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0x42.toByte(), 0x44.toByte(), 0xf9.toByte(),
-        ),
-    ),
-    // Ilqfk 3.73.179 (lib/arm64-v8a/libapp.so)
-    VersionSignatures(
-        version = "3.73.179",
-        isUserSubscribedSig = byteArrayOf(
-            0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
-            0xfd.toByte(), 0x03.toByte(), 0x0f.toByte(), 0xaa.toByte(),
-            0xef.toByte(), 0x81.toByte(), 0x00.toByte(), 0xd1.toByte(),
-            0x50.toByte(), 0x1f.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
-            0x49.toByte(), 0x0a.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x40.toByte(), 0x37.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0x00.toByte(), 0x3c.toByte(), 0x52.toByte(), 0xf9.toByte(),
-            0x70.toByte(), 0x23.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0x1f.toByte(), 0x00.toByte(), 0x10.toByte(), 0x6b.toByte(),
-            0x81.toByte(), 0x00.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x62.toByte(), 0x23.toByte(), 0x40.toByte(), 0x91.toByte(),
-            0x42.toByte(), 0xe4.toByte(), 0x41.toByte(), 0xf9.toByte(),
-            0xf0.toByte(), 0x0f.toByte(), 0x49.toByte(), 0x94.toByte(),
-            0x70.toByte(), 0x23.toByte(), 0x40.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0x42.toByte(), 0x43.toByte(), 0xf9.toByte(),
-        ),
-        getStateSig = byteArrayOf(
-            0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
-            0xfd.toByte(), 0x03.toByte(), 0x0f.toByte(), 0xaa.toByte(),
-            0xef.toByte(), 0x61.toByte(), 0x00.toByte(), 0xd1.toByte(),
-            0x50.toByte(), 0x1f.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
-            0x89.toByte(), 0x04.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x46.toByte(), 0x9c.toByte(), 0x05.toByte(), 0x94.toByte(),
-            0x01.toByte(), 0xf0.toByte(), 0x5f.toByte(), 0xf8.toByte(),
-            0x21.toByte(), 0x7c.toByte(), 0x4c.toByte(), 0xd3.toByte(),
-            0x70.toByte(), 0x83.toByte(), 0x41.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0xa2.toByte(), 0x42.toByte(), 0xf9.toByte(),
+            0x10.toByte(), 0x72.toByte(), 0x47.toByte(), 0xf9.toByte(),
         ),
     ),
 )
