@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-Helper tool to extract ARM64 native signatures for Ilqfk Plus patch from Ilqfk's libapp.so, APK, or APKM.
+Helper tool to extract ARM64 native signatures for Ilqfk Plus patch from Ilqfk's libapp.so, APK, APKM, or XAPK.
 
 Usage:
-    python tools/find_ilqfk_signatures.py [path_to_libapp.so_or_apk_or_apkm] [version_string]
+    python tools/find_ilqfk_signatures.py [path_to_libapp.so_or_apk_or_apkm_or_xapk] [version_string]
 
 Example:
     python tools/find_ilqfk_signatures.py libapp.so 3.74.0
     python tools/find_ilqfk_signatures.py ilqfk_3.74.0.apk
     python tools/find_ilqfk_signatures.py ilqfk_3.74.0.apkm
+    python tools/find_ilqfk_signatures.py ilqfk_3.74.0.xapk
 """
 
 import sys
@@ -21,7 +22,7 @@ ENTER_FRAME = bytes([0xfd, 0x79, 0xbf, 0xa9, 0xfd, 0x03, 0x0f, 0xaa])
 LDUR_UBFX = bytes([0x01, 0xf0, 0x5f, 0xf8, 0x21, 0x7c, 0x4c, 0xd3])
 
 def extract_libapp_bytes(file_path):
-    """Extracts bytes of libapp.so from a .so, .apk, or .apkm file."""
+    """Extracts bytes of libapp.so from a .so, .apk, .apkm, or .xapk file."""
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Arquivo não encontrado: {file_path}")
 
@@ -44,6 +45,17 @@ def extract_libapp_bytes(file_path):
                     for sname in sz.namelist():
                         if sname.endswith('lib/arm64-v8a/libapp.so') or sname.endswith('libapp.so'):
                             print(f"[+] Extraindo libapp.so de {name}...")
+                            return sz.read(sname), sname
+
+        # Fallback: scan any APK inside the bundle/zip for arm64 libapp.so
+        for name in z.namelist():
+            if name.endswith('.apk') and 'arm64' not in name:
+                split_bytes = z.read(name)
+                import io
+                with zipfile.ZipFile(io.BytesIO(split_bytes)) as sz:
+                    for sname in sz.namelist():
+                        if sname.endswith('lib/arm64-v8a/libapp.so') or sname.endswith('libapp.so'):
+                            print(f"[+] Extraindo libapp.so de {name} ({sname})...")
                             return sz.read(sname), sname
 
     raise ValueError(f"Não foi possível encontrar lib/arm64-v8a/libapp.so dentro de {file_path}")
