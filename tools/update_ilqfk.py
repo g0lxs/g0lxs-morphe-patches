@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Automated workflow to update the Ilqfk (Finch) patch to a new version.
+Automated all-in-one workflow to update the Ilqfk (Finch) patch to a new version.
 
 This script performs the entire update in one shot:
   1. Checks APKPure for the latest version and downloads it automatically
@@ -9,11 +9,12 @@ This script performs the entire update in one shot:
   3. Updates UnlockPlusPatch.kt (ILQFK_VERSIONS + versionSignatures)
   4. Updates patches-list.json (targets)
   5. Updates README.md (supported versions table)
-  6. Commits and pushes → triggers the Release workflow on GitHub
+  6. Commits and pushes -> triggers the Release workflow on GitHub
 
 Usage:
     python tools/update_ilqfk.py                       # auto-check APKPure & download if newer
     python tools/update_ilqfk.py path/to/app.xapk      # explicit path (skips download)
+    python tools/update_ilqfk.py --print-only          # only extract & display Kotlin code (no git/file edits)
     python tools/update_ilqfk.py --no-download         # use local files in ~/Downloads only
     python tools/update_ilqfk.py --force               # process even if version matches current
     python tools/update_ilqfk.py --no-push             # commit without pushing
@@ -23,9 +24,11 @@ Usage:
 import sys
 import os
 import re
+import io
 import json
 import glob
 import time
+import zipfile
 import subprocess
 import argparse
 import urllib.request
@@ -37,17 +40,11 @@ if hasattr(sys.stdout, "reconfigure"):
     except Exception:
         pass
 
-# ─── Import signature-extraction utilities from the companion tool ────────────
+# ─── Constants ────────────────────────────────────────────────────────────────
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from find_ilqfk_signatures import (
-    extract_libapp_bytes,
-    format_kotlin_byte_array,
-    LEAVE_FRAME,
-    ENTER_FRAME,
-    LDUR_UBFX,
-    has_yearly_pool_load,
-)
+LEAVE_FRAME = bytes([0xef, 0x03, 0x1d, 0xaa, 0xfd, 0x79, 0xc1, 0xa8, 0xc0, 0x03, 0x5f, 0xd6])
+ENTER_FRAME = bytes([0xfd, 0x79, 0xbf, 0xa9, 0xfd, 0x03, 0x0f, 0xaa])
+LDUR_UBFX = bytes([0x01, 0xf0, 0x5f, 0xf8, 0x21, 0x7c, 0x4c, 0xd3])
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 
@@ -101,7 +98,7 @@ def _version_from_filename(filepath):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  APKPure Downloader & Package Detection
+#  Step 1 — APKPure Downloader & Package Detection
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def get_latest_apkpure_info(package_id="com.finch.finch"):
@@ -238,8 +235,76 @@ def find_local_package(explicit_path=None):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  Step 2 — Extract ARM64 signatures
+#  Step 2 — Native ARM64 Signature Extraction
 # ═══════════════════════════════════════════════════════════════════════════════
+
+def format_kotlin_byte_array(b_array, indent="            "):
+    lines = []
+    chunk_size = 4
+    for i in range(0, len(b_array), chunk_size):
+        chunk = b_array[i : i + chunk_size]
+        formatted = ", ".join([f"0x{b:02x}.toByte()" for b in chunk])
+        lines.append(f"{indent}{formatted},")
+    return "\n".join(lines)
+
+
+def has_yearly_pool_load(libapp_data, fn_pos):
+    """Checks if function body has the pool load for 'yearly' followed by LeaveFrame."""
+    scan_end = min(fn_pos + 512, len(libapp_data) - 20)
+    for i in range(fn_pos + 40, scan_end, 4):
+        a0, a1, a2, a3 = libapp_data[i : i + 4]
+        # add xRd, x27, #N, lsl #12
+        if a3 == 0x91 and (a2 & 0x40) != 0 and (a1 & 0x03) == 0x03 and ((a0 >> 5) & 0x07) == 0x03:
+            add_rd = a0 & 0x1F
+            b0, b1, b2, b3 = libapp_data[i + 4 : i + 8]
+            # ldr x0, [xRn, #N]
+            if b3 == 0xf9 and (b0 & 0x1F) == 0:
+                ldr_rn = ((b0 >> 5) & 0x07) | ((b1 & 0x03) << 3)
+                if ldr_rn == add_rd:
+                    for j in range(7):
+                        ri = i + 8 + j * 4
+                        if libapp_data[ri : ri + len(LEAVE_FRAME)] == LEAVE_FRAME:
+                            return True
+    return False
+
+
+def extract_libapp_bytes(file_path):
+    """Extracts bytes of libapp.so from a .so, .apk, .apkm, or .xapk file."""
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Arquivo não encontrado: {file_path}")
+
+    if file_path.endswith(".so"):
+        with open(file_path, "rb") as f:
+            return f.read(), os.path.basename(file_path)
+
+    with zipfile.ZipFile(file_path, "r") as z:
+        for name in z.namelist():
+            if name.endswith("lib/arm64-v8a/libapp.so") or name == "libapp.so":
+                print(f"[+] Extraindo libapp.so de {file_path} ({name})...")
+                return z.read(name), name
+
+        for name in z.namelist():
+            if "arm64" in name and name.endswith(".apk"):
+                print(f"[+] Encontrado split APK ARM64: {name}")
+                split_bytes = z.read(name)
+                with zipfile.ZipFile(io.BytesIO(split_bytes)) as sz:
+                    for sname in sz.namelist():
+                        if sname.endswith("lib/arm64-v8a/libapp.so") or sname.endswith("libapp.so"):
+                            print(f"[+] Extraindo libapp.so de {name}...")
+                            return sz.read(sname), sname
+
+        # Fallback: scan any APK inside the bundle/zip for arm64 libapp.so
+        for name in z.namelist():
+            if name.endswith(".apk") and "arm64" not in name:
+                split_bytes = z.read(name)
+                with zipfile.ZipFile(io.BytesIO(split_bytes)) as sz:
+                    for sname in sz.namelist():
+                        if sname.endswith("lib/arm64-v8a/libapp.so") or sname.endswith("libapp.so"):
+                            print(f"[+] Extraindo libapp.so de {name} ({sname})...")
+                            return sz.read(sname), sname
+
+    raise ValueError(f"Não foi possível encontrar lib/arm64-v8a/libapp.so dentro de {file_path}")
+
 
 def extract_signatures(libapp_data):
     """
@@ -291,7 +356,7 @@ def extract_signatures(libapp_data):
             break
 
     if get_state_pos is None or is_sub_pos is None:
-        die("Não foi possível localizar o par de funções. O APKM pode ser incompatível.")
+        die("Não foi possível localizar o par de funções. O arquivo pode ser incompatível.")
 
     is_sub_sig = libapp_data[is_sub_pos : is_sub_pos + 60]
     get_state_sig = libapp_data[get_state_pos : get_state_pos + 44]
@@ -311,6 +376,21 @@ def extract_signatures(libapp_data):
 
     print("[+] Assinaturas únicas verificadas ✓")
     return is_sub_sig, get_state_sig
+
+
+def format_kotlin_block(version, is_sub_sig, get_state_sig):
+    return (
+        f"    // Ilqfk {version} (lib/arm64-v8a/libapp.so)\n"
+        f"    VersionSignatures(\n"
+        f"        version = \"{version}\",\n"
+        f"        isUserSubscribedSig = byteArrayOf(\n"
+        f"{format_kotlin_byte_array(is_sub_sig)}\n"
+        f"        ),\n"
+        f"        getStateSig = byteArrayOf(\n"
+        f"{format_kotlin_byte_array(get_state_sig)}\n"
+        f"        ),\n"
+        f"    ),"
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -350,16 +430,7 @@ def update_kotlin_file(version, is_sub_sig, get_state_sig):
 
     new_block = (
         f"private val versionSignatures = listOf(\n"
-        f"    // Ilqfk {version} (lib/arm64-v8a/libapp.so)\n"
-        f"    VersionSignatures(\n"
-        f"        version = \"{version}\",\n"
-        f"        isUserSubscribedSig = byteArrayOf(\n"
-        f"{format_kotlin_byte_array(is_sub_sig)}\n"
-        f"        ),\n"
-        f"        getStateSig = byteArrayOf(\n"
-        f"{format_kotlin_byte_array(get_state_sig)}\n"
-        f"        ),\n"
-        f"    ),\n"
+        f"{format_kotlin_block(version, is_sub_sig, get_state_sig)}\n"
         f")"
     )
 
@@ -451,6 +522,11 @@ def main():
         help="Caminho para o APK/APKM/XAPK do Finch (baixa do APKPure ou auto-detecta em ~/Downloads se omitido)",
     )
     parser.add_argument(
+        "--print-only",
+        action="store_true",
+        help="Apenas extrair e exibir o código Kotlin das assinaturas no terminal (sem alterar arquivos ou git)",
+    )
+    parser.add_argument(
         "--no-download",
         action="store_true",
         help="Não baixar do APKPure; usar apenas arquivos locais em ~/Downloads",
@@ -473,7 +549,7 @@ def main():
     args = parser.parse_args()
 
     print("=" * 60)
-    print("  Ilqfk (Finch) — Patch Updater")
+    print("  Ilqfk (Finch) - Patch Updater")
     print("=" * 60)
 
     # Current version in repo
@@ -496,7 +572,7 @@ def main():
         if latest_ver and dl_url:
             print(f"      Versão no APKPure:     {latest_ver}")
             print(f"      Versão no repositório: {current_ver}")
-            if latest_ver == current_ver and not args.force:
+            if latest_ver == current_ver and not args.force and not args.print_only:
                 print(f"\n[+] A versão {latest_ver} já é a versão suportada atualmente no repositório. Nada a fazer.")
                 print(f"    (Dica: use --force para forçar a re-execução do processo).")
                 sys.exit(0)
@@ -518,7 +594,7 @@ def main():
     print(f"\n[1/6] Pacote: {os.path.basename(package_path)}")
     print(f"      Versão: {version}")
 
-    if current_ver == version and not args.force:
+    if current_ver == version and not args.force and not args.print_only:
         die(f"A versão {version} já é a versão atual. Nada a fazer (use --force para forçar).")
     elif current_ver != version:
         print(f"      Atualização: {current_ver} → {version}")
@@ -527,6 +603,16 @@ def main():
     print(f"\n[2/6] Extraindo assinaturas do ARM64...")
     libapp_data, _ = extract_libapp_bytes(package_path)
     is_sub_sig, get_state_sig = extract_signatures(libapp_data)
+
+    # ── Inspect / Print Only Mode ──
+    if args.print_only:
+        print("\n" + "=" * 60)
+        print(f"  CÓDIGO GERADO PARA A VERSÃO {version}:")
+        print("=" * 60)
+        print(format_kotlin_block(version, is_sub_sig, get_state_sig))
+        print("=" * 60)
+        print("\n[+] Modo --print-only finalizado sem alterar arquivos.")
+        return
 
     # ── 3. Update Kotlin ──
     print(f"\n[3/6] Atualizando UnlockPlusPatch.kt...")
