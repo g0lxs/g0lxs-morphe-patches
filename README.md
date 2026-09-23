@@ -17,7 +17,7 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 ## 🩹 Patches
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.10.0](https://github.com/g0lxs/g0lxs-morphe-patches/releases/tag/v1.10.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
+> **[v1.11.0](https://github.com/g0lxs/g0lxs-morphe-patches/releases/tag/v1.11.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
 <details open>
 <summary>📦 Ilqfk&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
