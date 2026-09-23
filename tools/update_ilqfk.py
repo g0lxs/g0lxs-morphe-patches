@@ -311,7 +311,7 @@ def git_commit_and_push(version, push=True):
     print(f"[+] Commitado: feat: support Ilqfk {version}")
 
     if push:
-        run_git("push")
+        run_git("push", "-u", "origin", "HEAD")
         print("[+] Enviado para o origin. O workflow de Release irá compilar e publicar automaticamente.")
     else:
         print("[*] Push não realizado (--no-push). Execute 'git push' quando estiver pronto.")
