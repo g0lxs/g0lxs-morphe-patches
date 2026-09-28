@@ -1,3 +1,9 @@
+## [1.12.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.11.0...v1.12.0) (2026-09-28)
+
+### ✨ New Features
+
+* support Ilqfk 3.73.211 ([0b77f87](https://github.com/g0lxs/g0lxs-morphe-patches/commit/0b77f8744d73abeded4f37a9867c3a9045ee65a3))
+
 ## [1.11.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.10.0...v1.11.0) (2026-09-23)
 
 ### ✨ New Features

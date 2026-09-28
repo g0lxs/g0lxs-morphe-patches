@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-09-23T13:20:06",
-  "description": "## [1.11.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.10.0...v1.11.0) (2026-09-23)\n\n### ✨ New Features\n\n* support Ilqfk 3.73.209 ([102490c](https://github.com/g0lxs/g0lxs-morphe-patches/commit/102490c0748133fcd67c91c8c8774db6e3d7d46d))",
-  "download_url": "https://github.com/g0lxs/g0lxs-morphe-patches/releases/download/v1.11.0/patches-1.11.0.mpp",
+  "created_at": "2026-09-28T17:25:46",
+  "description": "## [1.12.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.11.0...v1.12.0) (2026-09-28)\n\n### ✨ New Features\n\n* support Ilqfk 3.73.211 ([0b77f87](https://github.com/g0lxs/g0lxs-morphe-patches/commit/0b77f8744d73abeded4f37a9867c3a9045ee65a3))",
+  "download_url": "https://github.com/g0lxs/g0lxs-morphe-patches/releases/download/v1.12.0/patches-1.12.0.mpp",
   "signature_download_url": "",
-  "version": "1.11.0"
+  "version": "1.12.0"
 }
