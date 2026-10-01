@@ -1,3 +1,9 @@
+## [1.14.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.13.0...v1.14.0) (2026-10-01)
+
+### ✨ New Features
+
+* add Ilqfk updater batch script and Python tool ([f4823fe](https://github.com/g0lxs/g0lxs-morphe-patches/commit/f4823fe38fc762022780c159c21cf18e7f618ab5))
+
 ## [1.13.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.12.0...v1.13.0) (2026-10-01)
 
 ### ✨ New Features
