@@ -97,6 +97,15 @@ def _version_from_filename(filepath):
     return m.group(1)
 
 
+def parse_version(v_str):
+    if not v_str:
+        return (0, 0, 0)
+    try:
+        return tuple(int(x) for x in re.findall(r"\d+", v_str))
+    except Exception:
+        return (0, 0, 0)
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 #  Step 1 — APKPure Downloader & Package Detection
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -203,13 +212,16 @@ def download_from_apkpure(download_url, version, dest_dir=None, package_id="com.
 
 
 def find_local_package(explicit_path=None):
-    """Locate an existing Finch APK, APKM, or XAPK file. Returns (path, version)."""
+    """Locate an existing Finch/Ilqfk APK, APKM, or XAPK file. Returns (path, version)."""
     if explicit_path:
         if not os.path.isfile(explicit_path):
             die(f"Arquivo não encontrado: {explicit_path}")
         return explicit_path, _version_from_filename(explicit_path)
 
-    downloads = os.path.join(os.path.expanduser("~"), "Downloads")
+    search_dirs = [
+        os.path.join(os.path.expanduser("~"), "Downloads"),
+        os.path.join(os.path.expanduser("~"), "Desktop"),
+    ]
     patterns = [
         "com.finch.finch_*.xapk",
         "com.finch.finch_*.apkm",
@@ -217,12 +229,18 @@ def find_local_package(explicit_path=None):
         "*finch*.xapk",
         "*finch*.apkm",
         "*finch*.apk",
+        "*ilqfk*.xapk",
+        "*ilqfk*.apkm",
+        "*ilqfk*.apk",
     ]
     matches = []
-    for pat in patterns:
-        for p in glob.glob(os.path.join(downloads, pat)):
-            if p not in matches and not p.endswith(".part"):
-                matches.append(p)
+    for sdir in search_dirs:
+        if not os.path.isdir(sdir):
+            continue
+        for pat in patterns:
+            for p in glob.glob(os.path.join(sdir, pat)):
+                if p not in matches and not p.endswith(".part"):
+                    matches.append(p)
 
     matches.sort(key=os.path.getmtime, reverse=True)
     if not matches:
@@ -561,37 +579,58 @@ def main():
     version = None
 
     # ── 1. Obtain Package (APKPure download or local detection) ──
+    local_path, local_ver = find_local_package()
+    latest_apkpure_ver = None
+    dl_url = None
+
     if args.package_file:
         if not os.path.isfile(args.package_file):
             die(f"Arquivo não encontrado: {args.package_file}")
         package_path = args.package_file
         version = _version_from_filename(package_path)
+    elif local_path and parse_version(local_ver) > parse_version(current_ver):
+        print(f"\n[1/6] Novo pacote detectado localmente!")
+        print(f"      Arquivo: {os.path.basename(local_path)}")
+        print(f"      Versão local:       {local_ver}")
+        print(f"      Versão repositório: {current_ver}")
+        package_path = local_path
+        version = local_ver
     elif not args.no_download:
         print(f"\n[1/6] Verificando versão mais recente no APKPure...")
-        latest_ver, dl_url = get_latest_apkpure_info()
-        if latest_ver and dl_url:
-            print(f"      Versão no APKPure:     {latest_ver}")
+        latest_apkpure_ver, dl_url = get_latest_apkpure_info()
+        if latest_apkpure_ver and dl_url:
+            print(f"      Versão no APKPure:     {latest_apkpure_ver}")
             print(f"      Versão no repositório: {current_ver}")
-            if latest_ver == current_ver and not args.force and not args.print_only:
-                print(f"\n[+] A versão {latest_ver} já é a versão suportada atualmente no repositório. Nada a fazer.")
-                print(f"    (Dica: use --force para forçar a re-execução do processo).")
-                sys.exit(0)
-            package_path = download_from_apkpure(dl_url, latest_ver)
-            version = latest_ver
+            if parse_version(latest_apkpure_ver) > parse_version(current_ver) or (args.force or args.print_only):
+                package_path = download_from_apkpure(dl_url, latest_apkpure_ver)
+                version = latest_apkpure_ver
         else:
-            print("[!] Não foi possível checar o APKPure. Buscando arquivos locais...")
+            print("[!] Não foi possível checar o APKPure.")
+
+    if not package_path and local_path:
+        if args.force or args.print_only:
+            package_path = local_path
+            version = local_ver
 
     if not package_path:
-        package_path, version = find_local_package()
-        if not package_path:
-            die(
-                "Nenhum arquivo do Finch (.xapk, .apkm ou .apk) encontrado em ~/Downloads,\n"
-                "e não foi possível baixar do APKPure.\n"
-                "Passe o caminho diretamente:\n"
-                "  python tools/update_ilqfk.py caminho/para/arquivo.xapk"
-            )
+        print(f"\n[*] Status das versões:")
+        print(f"    - Versão atual no repositório: {current_ver}")
+        if latest_apkpure_ver:
+            print(f"    - Versão no APKPure:           {latest_apkpure_ver}")
+        if local_path:
+            print(f"    - Arquivo local encontrado:    {os.path.basename(local_path)} ({local_ver})")
+        else:
+            print(f"    - Arquivo local:               Nenhum pacote encontrado em Downloads ou Desktop")
+        print(f"\n[+] Nenhuma versão mais recente encontrada.")
+        print(f"    • Se uma nova versão saiu (ex: na Play Store/APKMirror) mas ainda não no APKPure:")
+        print(f"      Baixe o .xapk, .apkm ou .apk para a pasta Downloads ou Desktop e execute novamente,")
+        print(f"      ou passe o caminho diretamente:")
+        print(f"        python tools/update_ilqfk.py caminho/para/arquivo.apkm")
+        print(f"    • Para forçar a execução com a versão atual:")
+        print(f"        python tools/update_ilqfk.py --force")
+        sys.exit(0)
 
-    print(f"\n[1/6] Pacote: {os.path.basename(package_path)}")
+    print(f"\n[1/6] Pacote selecionado: {os.path.basename(package_path)}")
     print(f"      Versão: {version}")
 
     if current_ver == version and not args.force and not args.print_only:
@@ -639,4 +678,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n[!] Operação cancelada pelo usuário.")
+        sys.exit(1)
+    except Exception as e:
+        print(f"\n[-] Erro durante a execução: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
