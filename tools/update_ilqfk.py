@@ -502,6 +502,15 @@ def update_readme(version):
 #  Step 6 — Git commit & push
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def git_sync_remote():
+    """Pulls latest remote commits (e.g. from semantic-release bot) before making changes."""
+    try:
+        print("[*] Sincronizando com o repositório remoto (git pull --rebase)...")
+        subprocess.run(["git", "pull", "--rebase"], cwd=REPO_ROOT, check=True, capture_output=True)
+    except Exception as e:
+        print("[!] Aviso: não foi possível sincronizar com o remote (sem conexão ou working tree não limpa).")
+
+
 def git_commit_and_push(version, push=True):
     run_git("add", PATCH_KT, PATCHES_LIST_JSON, README_MD)
 
@@ -519,7 +528,12 @@ def git_commit_and_push(version, push=True):
     print(f"[+] Commitado: feat: support Ilqfk {version}")
 
     if push:
-        run_git("push", "-u", "origin", "HEAD")
+        try:
+            run_git("push", "-u", "origin", "HEAD")
+        except Exception:
+            print("[*] Remote foi atualizado pelo bot de release. Sincronizando via rebase e reenviando...")
+            run_git("pull", "--rebase", "origin", "HEAD")
+            run_git("push", "-u", "origin", "HEAD")
         print("[+] Enviado para o origin. O workflow de Release irá compilar e publicar automaticamente.")
     else:
         print("[*] Push não realizado (--no-push). Execute 'git push' quando estiver pronto.")
@@ -569,6 +583,9 @@ def main():
     print("=" * 60)
     print("  Ilqfk (Finch) - Patch Updater")
     print("=" * 60)
+
+    if not args.print_only and not args.no_commit:
+        git_sync_remote()
 
     # Current version in repo
     current_content = read_file(PATCH_KT)
