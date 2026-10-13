@@ -45,6 +45,10 @@ if hasattr(sys.stdout, "reconfigure"):
 LEAVE_FRAME = bytes([0xef, 0x03, 0x1d, 0xaa, 0xfd, 0x79, 0xc1, 0xa8, 0xc0, 0x03, 0x5f, 0xd6])
 ENTER_FRAME = bytes([0xfd, 0x79, 0xbf, 0xa9, 0xfd, 0x03, 0x0f, 0xaa])
 LDUR_UBFX = bytes([0x01, 0xf0, 0x5f, 0xf8, 0x21, 0x7c, 0x4c, 0xd3])
+# "return true" early-exit block: add x0, x22, #0x20 (true) ; LeaveFrame ; ret.
+# isUserSubscribed() returns Dart `true` from several of these blocks; requiring a
+# couple of them rejects unrelated functions that merely share the EnterFrame prologue.
+RETURN_TRUE = bytes([0xc0, 0x82, 0x00, 0x91]) + LEAVE_FRAME
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 
@@ -266,6 +270,20 @@ def format_kotlin_byte_array(b_array, indent="            "):
     return "\n".join(lines)
 
 
+def count_signature(data, start, end, sig):
+    """Counts 4-byte-aligned occurrences of sig within data[start:end]."""
+    count = 0
+    i = start
+    limit = min(end, len(data)) - len(sig)
+    while i <= limit:
+        if data[i : i + len(sig)] == sig:
+            count += 1
+            i += len(sig)
+        else:
+            i += 4
+    return count
+
+
 def has_yearly_pool_load(libapp_data, fn_pos):
     """Checks if function body has the pool load for 'yearly' followed by LeaveFrame."""
     scan_end = min(fn_pos + 512, len(libapp_data) - 20)
@@ -347,31 +365,49 @@ def extract_signatures(libapp_data):
 
     print(f"[*] Candidatos getUserSubscriptionState: {[hex(c) for c in candidates]}")
 
-    # ── isUserSubscribed paired with each candidate ──
-    # Pattern: EnterFrame + sub x15, x15, #0x20
+    # ── isUserSubscribed candidates ──
+    # Pattern: EnterFrame + sub x15, x15, #0x20.
+    # isUserSubscribed() returns the Dart `true` object from several early-exit blocks
+    # (add x0, x22, #0x20 ; LeaveFrame ; ret). Unrelated functions that merely share the
+    # prologue have no such blocks, so requiring >= 2 is a strong discriminator.
     pat_is_sub = ENTER_FRAME + bytes([0xef, 0x81, 0x00, 0xd1])
+    is_sub_candidates = []
+    idx = 0
+    while True:
+        pos = libapp_data.find(pat_is_sub, idx)
+        if pos == -1:
+            break
+        idx = pos + 4
+        return_true = count_signature(libapp_data, pos, pos + 600, RETURN_TRUE)
+        if return_true >= 2:
+            is_sub_candidates.append((pos, return_true))
+
+    print(f"[*] Candidatos isUserSubscribed: "
+          f"{[(hex(p), n) for p, n in is_sub_candidates]}")
+
+    # ── Pair each getUserSubscriptionState candidate with its nearest
+    #    isUserSubscribed candidate ──
+    # The two functions live in the same Dart library but may be several KB apart, with
+    # other methods in between (their distance varies per build), so a fixed window is
+    # unreliable. We pick the globally closest pairing — proximity first, then the
+    # most convincing isUserSubscribed body (more `return true` blocks) as tie-breaker.
     get_state_pos = None
     is_sub_pos = None
+    best = None
 
     for cand in candidates:
-        scan_lo = max(0, cand - 400)
-        scan_hi = min(len(libapp_data) - 20, cand + 500)
-        for off in range(scan_lo, scan_hi, 4):
-            if libapp_data[off : off + 12] == pat_is_sub:
-                leaves = sum(
-                    1
-                    for j in range(off, min(off + 450, len(libapp_data)), 4)
-                    if libapp_data[j : j + len(LEAVE_FRAME)] == LEAVE_FRAME
-                )
-                if leaves >= 5:
-                    get_state_pos = cand
-                    is_sub_pos = off
-                    print(f"[+] Par de funções identificado!")
-                    print(f"    getUserSubscriptionState() em: {hex(get_state_pos)}")
-                    print(f"    isUserSubscribed()         em: {hex(is_sub_pos)} ({leaves} retornos)")
-                    break
-        if get_state_pos is not None:
-            break
+        for pos, return_true in is_sub_candidates:
+            dist = abs(pos - cand)
+            score = (-dist, return_true)
+            if best is None or score > best[0]:
+                best = (score, cand, pos, return_true, dist)
+
+    if best is not None:
+        _, get_state_pos, is_sub_pos, return_true, dist = best
+        print(f"[+] Par de funções identificado!")
+        print(f"    getUserSubscriptionState() em: {hex(get_state_pos)}")
+        print(f"    isUserSubscribed()         em: {hex(is_sub_pos)} "
+              f"({return_true} retornos true, {dist} bytes de distância)")
 
     if get_state_pos is None or is_sub_pos is None:
         die("Não foi possível localizar o par de funções. O arquivo pode ser incompatível.")
