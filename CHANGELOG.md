@@ -1,3 +1,9 @@
+## [1.16.1](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.16.0...v1.16.1) (2026-10-13)
+
+### 🐛 Bug Fixes
+
+* **ilqfk:** correct UnlockPlus signatures for 3.73.225 and harden updater heuristic ([6145f25](https://github.com/g0lxs/g0lxs-morphe-patches/commit/6145f2539cc58040e8e9f23db14f62f264e3a7d4))
+
 ## [1.16.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.15.0...v1.16.0) (2026-10-13)
 
 ### ✨ New Features
