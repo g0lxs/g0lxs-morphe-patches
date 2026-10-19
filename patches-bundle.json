@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-13T23:30:10",
-  "description": "## [1.16.1](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.16.0...v1.16.1) (2026-10-13)\n\n### 🐛 Bug Fixes\n\n* **ilqfk:** correct UnlockPlus signatures for 3.73.225 and harden updater heuristic ([6145f25](https://github.com/g0lxs/g0lxs-morphe-patches/commit/6145f2539cc58040e8e9f23db14f62f264e3a7d4))",
-  "download_url": "https://github.com/g0lxs/g0lxs-morphe-patches/releases/download/v1.16.1/patches-1.16.1.mpp",
+  "created_at": "2026-10-19T12:22:46",
+  "description": "## [1.17.0](https://github.com/g0lxs/g0lxs-morphe-patches/compare/v1.16.1...v1.17.0) (2026-10-19)\n\n### ✨ New Features\n\n* support Ilqfk 3.73.227 ([8b02829](https://github.com/g0lxs/g0lxs-morphe-patches/commit/8b02829ea3827d25fc7419f335b29933ecded126))",
+  "download_url": "https://github.com/g0lxs/g0lxs-morphe-patches/releases/download/v1.17.0/patches-1.17.0.mpp",
   "signature_download_url": "",
-  "version": "1.16.1"
+  "version": "1.17.0"
 }
