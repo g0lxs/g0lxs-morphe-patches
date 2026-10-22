@@ -24,7 +24,7 @@ Personal [Morphe](https://morphe.software) patches by [g0lxs](https://github.com
 
 **🎯 Supported versions:**
 
-| 3.73.227 |
+| 3.73.228 |
 | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
