@@ -17,7 +17,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "3.73.228",
+              "version": "3.73.229",
               "isExperimental": false,
               "minSdk": null,
               "description": null
