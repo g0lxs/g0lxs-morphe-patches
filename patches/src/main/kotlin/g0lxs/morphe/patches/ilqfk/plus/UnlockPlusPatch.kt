@@ -5,7 +5,7 @@ import app.morphe.patcher.patch.Compatibility
 import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.rawResourcePatch
 
-private val ILQFK_VERSIONS = listOf("3.73.234")
+private val ILQFK_VERSIONS = listOf("3.73.235")
 
 private class VersionSignatures(
     val version: String,
@@ -14,23 +14,23 @@ private class VersionSignatures(
 )
 
 private val versionSignatures = listOf(
-    // Ilqfk 3.73.234 (lib/arm64-v8a/libapp.so)
+    // Ilqfk 3.73.235 (lib/arm64-v8a/libapp.so)
     VersionSignatures(
-        version = "3.73.234",
+        version = "3.73.235",
         isUserSubscribedSig = byteArrayOf(
             0xfd.toByte(), 0x79.toByte(), 0xbf.toByte(), 0xa9.toByte(),
             0xfd.toByte(), 0x03.toByte(), 0x0f.toByte(), 0xaa.toByte(),
             0xef.toByte(), 0x81.toByte(), 0x00.toByte(), 0xd1.toByte(),
             0x50.toByte(), 0x27.toByte(), 0x40.toByte(), 0xf9.toByte(),
             0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
-            0x29.toByte(), 0x0a.toByte(), 0x00.toByte(), 0x54.toByte(),
+            0xe9.toByte(), 0x09.toByte(), 0x00.toByte(), 0x54.toByte(),
             0x40.toByte(), 0x3f.toByte(), 0x40.toByte(), 0xf9.toByte(),
-            0x00.toByte(), 0xe8.toByte(), 0x5b.toByte(), 0xf9.toByte(),
+            0x00.toByte(), 0xf8.toByte(), 0x5b.toByte(), 0xf9.toByte(),
             0x50.toByte(), 0x4b.toByte(), 0x40.toByte(), 0xf9.toByte(),
             0x1f.toByte(), 0x00.toByte(), 0x10.toByte(), 0x6b.toByte(),
             0x61.toByte(), 0x00.toByte(), 0x00.toByte(), 0x54.toByte(),
             0x62.toByte(), 0x47.toByte(), 0x56.toByte(), 0xf9.toByte(),
-            0xa3.toByte(), 0x8c.toByte(), 0x5c.toByte(), 0x94.toByte(),
+            0x2a.toByte(), 0x9e.toByte(), 0x5c.toByte(), 0x94.toByte(),
             0x70.toByte(), 0x8f.toByte(), 0x66.toByte(), 0xf9.toByte(),
             0xe0.toByte(), 0xc1.toByte(), 0x00.toByte(), 0xa9.toByte(),
         ),
@@ -40,12 +40,12 @@ private val versionSignatures = listOf(
             0xef.toByte(), 0x61.toByte(), 0x00.toByte(), 0xd1.toByte(),
             0x50.toByte(), 0x27.toByte(), 0x40.toByte(), 0xf9.toByte(),
             0xff.toByte(), 0x01.toByte(), 0x10.toByte(), 0xeb.toByte(),
-            0x69.toByte(), 0x04.toByte(), 0x00.toByte(), 0x54.toByte(),
-            0x81.toByte(), 0x95.toByte(), 0xec.toByte(), 0x97.toByte(),
+            0x49.toByte(), 0x04.toByte(), 0x00.toByte(), 0x54.toByte(),
+            0xe4.toByte(), 0x6f.toByte(), 0xec.toByte(), 0x97.toByte(),
             0x01.toByte(), 0xf0.toByte(), 0x5f.toByte(), 0xf8.toByte(),
             0x21.toByte(), 0x7c.toByte(), 0x4c.toByte(), 0xd3.toByte(),
             0x70.toByte(), 0x9b.toByte(), 0x41.toByte(), 0x91.toByte(),
-            0x10.toByte(), 0x5e.toByte(), 0x44.toByte(), 0xf9.toByte(),
+            0x10.toByte(), 0x6e.toByte(), 0x47.toByte(), 0xf9.toByte(),
         ),
     ),
 )
